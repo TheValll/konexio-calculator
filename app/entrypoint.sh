@@ -1,1 +1,1 @@
-streamlit run /usr/src/app/app.py --server.port=8080 --server.address=0.0.0.0 --server.headless=True
+streamlit run /usr/src/app/ui.py --server.port=8080 --server.address=0.0.0.0 --server.headless=True

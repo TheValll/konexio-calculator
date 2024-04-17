@@ -40,7 +40,7 @@ Cette application utilise Streamlit pour créer une interface utilisateur intera
 4. Installer les dependences :
    pip install streamlit pandas openpyxl
 5. Lancer l'application streamlit :
-   streamlit run /usr/src/app/ui.py --server.port=8080 --server.address=0.0.0.0 --server.headless=True
+   streamlit run app/ui.py --server.port=8080 --server.address=0.0.0.0 --server.headless=True
 6. Ouvrez votre navigateur et accédez à `http://localhost:8080` pour utiliser l'application 🌐.
 
 ## Utilisation

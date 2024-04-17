@@ -1,57 +1,37 @@
-# Import the get_latitude_longitude and get_route functions.
-from get_latitude_longitude import get_latitude_longitude
-from get_route import get_route
+# Import get_latitude_longitude and get_route functions from the corresponding files.
+from get_distance import get_distance
 
+# Class DistanceCalculator to calculate the distance between the company and the student.
 class DistanceCalculator:
     # Initialize the class with the company address and the student address.
-    def __init__(self, entreprise_adresse, student_address):
+    def __init__(self, entreprise_adresse, student_adresse):
         self.entreprise_adresse = entreprise_adresse
-        self.student_address = student_address
+        self.student_adresse = student_adresse
+
+    # Function to calculate the distance between the company and the student by public transport.
+    def route_transport(self):
+        if self.entreprise_adresse and self.student_adresse:
+            route = get_distance(self.entreprise_adresse, self.student_adresse, "transit")
+            distance = route["routes"][0]["legs"][0]["distance"]["text"]
+            duration = route["routes"][0]["legs"][0]["duration"]["text"]
+            return distance, duration
 
     # Function to calculate the distance between the company and the student by car.
-    def distance_voiture(self):
-        entreprise_coordinate = get_latitude_longitude(self.entreprise_adresse)
-        student_coordinate = get_latitude_longitude(self.student_address)
-        if entreprise_coordinate and student_coordinate:
-            distance = get_route(entreprise_coordinate[1], entreprise_coordinate[0], student_coordinate[1], student_coordinate[0], mode='car')
-            return round(distance['distance'] / 1000, 2)
-        else:
-            return None
-
-    # Function to calculate the distance between the company and the student by foot.
-    def distance_pieton(self):
-        entreprise_coordinate = get_latitude_longitude(self.entreprise_adresse)
-        student_coordinate = get_latitude_longitude(self.student_address)
-        if entreprise_coordinate and student_coordinate:
-            distance = get_route(entreprise_coordinate[1], entreprise_coordinate[0], student_coordinate[1], student_coordinate[0], mode='pedestrian')
-            return round(distance['distance'] / 1000, 2)
+    def route_voiture(self):
+        if self.entreprise_adresse and self.student_adresse:
+            route = get_distance(self.entreprise_adresse, self.student_adresse, "driving")
+            distance = route["routes"][0]["legs"][0]["distance"]["text"]
+            duration = route["routes"][0]["legs"][0]["duration"]["text"]
+            return distance, duration
         else:
             return None
         
-    # Function to calculate the time taken to travel between the company and the student by car.
-    def temps_voiture(self):
-        entreprise_coordinate = get_latitude_longitude(self.entreprise_adresse)
-        student_coordinate = get_latitude_longitude(self.student_address)
-        if entreprise_coordinate and student_coordinate:
-            distance = get_route(entreprise_coordinate[1], entreprise_coordinate[0], student_coordinate[1], student_coordinate[0], mode='car')
-            return round(distance['duration'] / 60, 2)
-        else:
-            return None
-    
-    # Function to calculate the time taken to travel between the company and the student by foot.
-    def temps_pieton(self):
-        entreprise_coordinate = get_latitude_longitude(self.entreprise_adresse)
-        student_coordinate = get_latitude_longitude(self.student_address)
-        if entreprise_coordinate and student_coordinate:
-            distance = get_route(entreprise_coordinate[1], entreprise_coordinate[0], student_coordinate[1], student_coordinate[0], mode='pedestrian')
-            return round(distance['duration'] / 60, 2)
-        else:
-            return None
-    
-    # Function to calculate the time taken to travel between the company and the student by bike.
-    def temps_velo(self):
-        distance_pieton = self.distance_pieton()
-        if distance_pieton:
-            return round(distance_pieton * 0.7, 2)
+    # Function to calculate the distance between the company and the student by bike.
+    def route_velo(self):
+        if self.entreprise_adresse and self.student_adresse:
+            route = get_distance(self.entreprise_adresse, self.student_adresse, "bicycling")
+            distance = route["routes"][0]["legs"][0]["distance"]["text"]
+            duration = route["routes"][0]["legs"][0]["duration"]["text"]
+            return distance, duration
         else:
             return None

@@ -8,7 +8,7 @@ from set_data import set_data
 # Function to set the page configuration.
 def main():
     st.set_page_config(
-        page_title="Entreprise Distance Calulateur", 
+        page_title="Entreprise Distance Calculateur", 
         layout="wide", 
         initial_sidebar_state="auto",
     )
@@ -35,18 +35,22 @@ entreprise_adresses = st.text_input("Entrez l'adresse de l'entreprise", placehol
 # Create a button to calculate the distance between the company and its students.
 if st.button('Calculer la distance'):
     if uploaded_files:
-        data = set_data(uploaded_files, entreprise_adresses)
+        if entreprise_adresses:
+            data = set_data(uploaded_files, entreprise_adresses)
+        else:
+            st.write("Veuillez entrer l'adresse de l'entreprise.")
 
         # Create a DataFrame to display the data.
-        if data["nom"] and data["prenom"] and data["distances_voiture_list"] and data["temps_voiture_list"] and data["distances_pieton_list"] and data["temps_pieton_list"] and data["temps_velo_list"]:
+        if data["nom"] and data["prenom"] and data["distances_voiture_list"] and data["temps_voiture_list"] and data["temps_velo_list"] and data["distances_velo_list"] and data["distances_transport_list"] and data["temps_transport_list"]:
             df = pd.DataFrame({
                 'Nom': data["nom"],
                 'Prénom': data["prenom"],
-                'Distance voiture en km': data["distances_voiture_list"],
-                'Temps voiture en minutes': data["temps_voiture_list"],
-                'Distance piéton en km': data["distances_pieton_list"],
-                'Temps piéton en minutes': data["temps_pieton_list"],
-                'Temps vélo en minutes': data["temps_velo_list"],
+                'Distance transport': data["distances_transport_list"],
+                'Temps transport': data["temps_transport_list"],
+                'Distance voiture': data["distances_voiture_list"],
+                'Temps voiture': data["temps_voiture_list"],
+                'Distance vélo': data["distances_velo_list"],
+                'Temps vélo': data["temps_velo_list"],
             })
             st.write(df)
         else:
